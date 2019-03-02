@@ -3,6 +3,7 @@ from .models import Post
 
 
 # Create your views here.
+#romel was here
 from django.http import HttpResponse
 
 def home(request):
