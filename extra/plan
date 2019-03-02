@@ -34,13 +34,13 @@ Admin page
   -We may need to create a different administrator account and restrict permission so that we cann 
 -----------------------------------------------------------------------------------------------------------------------------
                                                         Database Tables
-                                                  - table name followed by attributes and datatype
+                                                  - table name followed by attributes
 Users (already created by django)
 
 Posts
-  - title (varchar(100))
-  - content (text
-  - date created
+  - title 
+  - content 
+  - date created 
   - date modified
   - invited users
   - url link
