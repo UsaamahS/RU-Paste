@@ -1,0 +1,53 @@
+                                                        Web pages 
+-----------------------------------------------------------------------------------------------------------------------------
+Home page 
+-Register and login button 
+-10 recent posts (public posts only) 
+-Posts are clickable > when clicked goes to a new page with post details 
+
+Register 
+  -Fields  
+     -Username 
+     -Password 
+     -Email 
+  -Check for existing username and password 
+  -Data validation e.g. string only etc. 
+
+Login 
+  -Fields 
+    -Username
+    -Password 
+
+
+Forgot password 
+  -Fields 
+    -Username 
+
+User page 
+  -Profile section 
+    -Ability to edit, update, delete profile and account 
+    -Users can list, search, create, edit, update and delete their own Posts 
+    -Users can also list, search and view private Posts which they have been invited to. 
+
+Admin page 
+  -Administrators can list, search, enable and disable Posts but cannot create, edit or otherwise modify a Post 
+  -We may need to create a different administrator account and restrict permission so that we cann 
+-----------------------------------------------------------------------------------------------------------------------------
+                                                        Database Tables
+                                                  - table name followed by attributes
+Users (already created by django)
+
+Posts
+  - title 
+  - content 
+  - date created 
+  - date modified
+  - invited users
+  - url link
+  - epxiration date
+  - public or private
+-------------------------------------------------------------------------------------------------------------
+                                                    Additional configurations
+[] Change site address from localhost to RU-Paste.com (can edit host file on local machine or host on an actual web server)
+
+ 
