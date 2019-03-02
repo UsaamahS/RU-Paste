@@ -1,4 +1,4 @@
-Web pages 
+                                                        Web pages 
 -----------------------------------------------------------------------------------------------------------------------------
 Home page 
 -Register and login button 
@@ -32,12 +32,9 @@ User page
 Admin page 
   -Administrators can list, search, enable and disable Posts but cannot create, edit or otherwise modify a Post 
   -We may need to create a different administrator account and restrict permission so that we cann 
-
- 
-
- 
-
-Database 
+-----------------------------------------------------------------------------------------------------------------------------
+                                                        Database 
+-----------------------------------------------------------------------------------------------------------------------------
 
  
 
