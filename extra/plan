@@ -33,8 +33,17 @@ Admin page
   -Administrators can list, search, enable and disable Posts but cannot create, edit or otherwise modify a Post 
   -We may need to create a different administrator account and restrict permission so that we cann 
 -----------------------------------------------------------------------------------------------------------------------------
-                                                        Database 
------------------------------------------------------------------------------------------------------------------------------
+                                                        Database Tables
+                                                  - table name followed by attributes
+Users (already created by django)
+
+Posts
+  - title
+  - content
+  - date created
+  - date modified
+  - invited users
+  - url link
 
  
 
