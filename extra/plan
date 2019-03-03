@@ -46,8 +46,13 @@ Posts
   - url link
   - epxiration date
   - public or private
--------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------
                                                     Additional configurations
 [] Change site address from localhost to RU-Paste.com (can edit host file on local machine or host on an actual web server)
+-----------------------------------------------------------------------------------------------------------------------------
+                                                      Download feature
+- Could use button onlick to call a function in view to download the contents of the post.
+- Use python request package and specify url of page then extract portion of the page we want, have to explore this option
+                                       
 
  
