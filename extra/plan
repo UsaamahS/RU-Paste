@@ -53,6 +53,12 @@ Posts
                                                       Download feature
 - Could use button onlick to call a function in view to download the contents of the post.
 - Use python request package and specify url of page then extract portion of the page we want, have to explore this option
+-----------------------------------------------------------------------------------------------------------------------------
+                                                        File uploads
+[] How to make secure?
+    - limit number of files that can be uploaded per user (questionable)
+    - file size limit e.g. 5 MB
+    - check file header 
                                        
 
  
