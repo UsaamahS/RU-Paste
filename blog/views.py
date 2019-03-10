@@ -3,6 +3,7 @@ from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import Q
 
 
 # Create your views here.
@@ -15,12 +16,19 @@ def home(request):
     }
     return render(request, 'blog/home.html', context)
 
+
+
 class PostListView(ListView):
     model = Post
     template_name= 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
+
+    def get_queryset(self):
+        query = self.request.GET.get("search", " ")
+        if query:
+            return Post.objects.filter(Q(title__icontains=query)| Q(content__icontains=query)).order_by('-date_posted')
 
 class UserPostListView(ListView):
     model = Post
