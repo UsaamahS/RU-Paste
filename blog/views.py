@@ -1,10 +1,14 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Post
+from .models import Post, Paste
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
+from django import  forms
+from datetime import datetime
 
+
+#from django.contrib.admin import widgets
 
 # Create your views here.
 #romel was here
@@ -20,6 +24,7 @@ def home(request):
 
 class PostListView(ListView):
     model = Post
+    queryset = Post.objects.filter(date_expired__gt=datetime.now())
     template_name= 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
@@ -28,7 +33,7 @@ class PostListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("search", " ")
         if query:
-            return Post.objects.filter(Q(title__icontains=query)| Q(content__icontains=query)).order_by('-date_posted')
+            return Post.objects.filter((Q(title__icontains=query)| Q(content__icontains=query)| Q(author__username=query)) & Q(date_expired__gt=datetime.now())).order_by('-date_posted')
 
 class UserPostListView(ListView):
     model = Post
@@ -38,7 +43,7 @@ class UserPostListView(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Post.objects.filter(author=user).order_by('-date_posted')
+        return Post.objects.filter(Q(author=user)).order_by('-date_posted')
 
 
 class PostDetailView(DetailView):
@@ -46,11 +51,16 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content']
+    #date_expired = forms.DateTimeField(widget=forms.SplitDateTimeWidget())
+
+    fields = ['title', 'content', 'date_expired', 'private']
+    #widgets = {'date_expired': forms.DateTimeField()}
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
@@ -81,3 +91,15 @@ def about(request):
         'title': 'About'
     }
     return render(request, 'blog/about.html', context)
+
+class PasteCreateView(LoginRequiredMixin, CreateView):
+    model = Paste
+    fields = ['title', 'content', 'date_expired', 'private']
+
+
+  #  date_expired = forms.DateField(forms.widgets.SelectDateWidget())
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+

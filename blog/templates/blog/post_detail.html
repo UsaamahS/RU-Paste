@@ -15,6 +15,7 @@
       </div>
       <h2 class="article-title">{{ object.title }}</h2>
       <p class="article-content">{{ object.content }}</p>
+      <p class="text-muted ml-0">Expires on: {{ post.date_expired| date:"Y-m-d" }}</p>
     </div>
   </article>
 {% endblock content%}

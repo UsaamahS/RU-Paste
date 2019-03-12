@@ -1,6 +1,7 @@
 {% extends "blog/base.html" %}
-{% load crispy_forms_tags %}
 {% load widget_tweaks %}
+{{ form.date_expired |add_class:"datepicker" }}
+{% load crispy_forms_tags %}
 {% block content %}
    <div class="content-section">
        <form method="POST">
