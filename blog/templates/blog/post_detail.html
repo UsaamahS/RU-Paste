@@ -1,4 +1,6 @@
 {% extends "blog/base.html" %}
+{% load markdownify %}
+{% load pygmentify %}
 {% block content %}
   <article class="media content-section">
     <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
@@ -19,8 +21,14 @@
       <div>
         <a class='btn btn-secondary btn-sm mt-1 mb-1' href="{% url 'download-post' object.id %}">Download</a>
       </div>
-
     </div>
+  </article>
+
+  <article class="media content-section highlight" >
+    <div class="media-body">
+        <h2 class="article-title">Rendered/Syntax highlighting</h2>
+            <p class="article-content">{{ object.content | markdown | safe }}</p>
+      </div>
   </article>
 {% endblock content%}
 
