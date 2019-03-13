@@ -130,3 +130,14 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'blog-home'
 LOGIN_URL = 'login'
+
+
+SEND_GRID_API_KEY='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'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'usaamah'
+EMAIL_HOST_PASSWORD = 'Fk$r1pXVuft!B6'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'lengendaryhalo@gmail.com'
+#ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Contact email recieved from website'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

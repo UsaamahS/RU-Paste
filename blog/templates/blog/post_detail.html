@@ -15,7 +15,11 @@
       </div>
       <h2 class="article-title">{{ object.title }}</h2>
       <p class="article-content">{{ object.content }}</p>
-      <p class="text-muted ml-0">Expires on: {{ post.date_expired| date:"Y-m-d" }}</p>
+      <p class="text-muted ml-0">Expires on: {{ post.date_expired| date:"Y-m-d H:i" }}</p>
+      <div>
+        <a class='btn btn-secondary btn-sm mt-1 mb-1' href="{% url 'download-post' object.id %}">Download</a>
+      </div>
+
     </div>
   </article>
 {% endblock content%}

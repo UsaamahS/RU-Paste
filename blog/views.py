@@ -1,3 +1,4 @@
+import io, csv
 from django.shortcuts import render, get_object_or_404
 from .models import Post, Paste
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -6,6 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.db.models import Q
 from django import  forms
 from datetime import datetime
+from django.contrib.admin.widgets import AdminDateWidget
 
 
 #from django.contrib.admin import widgets
@@ -55,7 +57,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     fields = ['title', 'content', 'date_expired', 'private']
     #widgets = {'date_expired': forms.DateTimeField()}
-
+    from_date = forms.DateField(widget=AdminDateWidget())
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
@@ -64,7 +66,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'date_expired', 'private']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -86,6 +88,15 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+def PostDownload(request,pk,**kwargs):
+    model = Post
+    title = Post.objects.only('title').get(id=pk).title + ".txt"
+    content = Post.objects.only('content').get(id=pk).content
+    response = HttpResponse(content, content_type='text/plain')
+    response['Content-Disposition']='attachment; filename="%s"' %  str(title)
+    return response
+
+
 def about(request):
     context = {
         'title': 'About'
@@ -95,7 +106,6 @@ def about(request):
 class PasteCreateView(LoginRequiredMixin, CreateView):
     model = Paste
     fields = ['title', 'content', 'date_expired', 'private']
-
 
   #  date_expired = forms.DateField(forms.widgets.SelectDateWidget())
 
