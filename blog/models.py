@@ -7,7 +7,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
-    date_expired = models.DateTimeField(auto_now=False, auto_now_add=False, blank=True, default='2020-01-01')
+    date_expired = models.DateTimeField( blank=True, null=True)
     private = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 

@@ -29,7 +29,7 @@ def home(request):
 
 class PostListView(ListView):
     model = Post
-    queryset = Post.objects.filter(date_expired__gt=datetime.now())
+    queryset = Post.objects.filter(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now())) #Post.objects.filter(date_expired__gt=datetime.now())
     template_name= 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
@@ -38,7 +38,7 @@ class PostListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("search", " ")
         if query:
-            return Post.objects.filter((Q(title__icontains=query)| Q(content__icontains=query)| Q(author__username=query)) & Q(date_expired__gt=datetime.now())).order_by('-date_posted')
+            return Post.objects.filter((Q(title__icontains=query)| Q(content__icontains=query)| Q(author__username=query)) & Q(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now()))).order_by('-date_posted')
 
 class UserPostListView(ListView):
     model = Post
@@ -125,14 +125,13 @@ def upload_file(request):
             newpost.title = request.POST.get("title", "")
             newpost.content = request.FILES['file'].read()
             newpost.date_posted = datetime.now()
-            newpost.date_expired= request.POST.get("date_expired","")
+            #print("test")
+            if request.POST.get("date_expired",'') == '':
+                newpost.date_expired = None
+                print("lol")
+            else:
+                newpost.date_expired= request.POST.get("date_expired",'')
             newpost.author = request.user
-            #print(request.FILES['file'].size)
-            #print(newpost.title)
-            #print(newpost.content)
-            #print(newpost.date_posted)
-            #print(newpost.date_expired)
-            #print(newpost.author)
             newpost.save()
             messages.success(request, "Post from file created!")
             return redirect('/')
