@@ -1,12 +1,15 @@
 import io, csv
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Paste
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
 from django import  forms
+from .forms import UploadFileForm
+from django.contrib import messages
 from datetime import datetime
+from django.contrib.auth.decorators import login_required
 from django.contrib.admin.widgets import AdminDateWidget
 
 
@@ -113,3 +116,29 @@ class PasteCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+@login_required
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            newpost= Post()
+            newpost.title = request.POST.get("title", "")
+            newpost.content = request.FILES['file'].read()
+            newpost.date_posted = datetime.now()
+            newpost.date_expired= request.POST.get("date_expired","")
+            newpost.author = request.user
+            #print(request.FILES['file'].size)
+            #print(newpost.title)
+            #print(newpost.content)
+            #print(newpost.date_posted)
+            #print(newpost.date_expired)
+            #print(newpost.author)
+            newpost.save()
+            messages.success(request, "Post from file created!")
+            return redirect('/')
+        else:
+            form = UploadFileForm()
+            messages.error(request, "File is too big, or invalid. It can only be a .txt!")
+    else:
+        form = UploadFileForm()
+    return render(request, 'blog/uploadfile.html', {'form': form})
