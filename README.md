@@ -36,3 +36,27 @@ RU-Paste has 4 tiers of users:
 - User should be able to configure a post expiration date. 
 - Posts can have titles.
 - The main/home page displays the 10 most recent posts. 
+
+#### Dependencies and requirements
+
+- Django - Web-Framework
+- Python3 - cuz python > everything
+- Bootstrap - Becuase css is hard
+- Django-crispy-forms - For sweet crispy forms
+- Django-pygments - Syntax highlighting Library
+- Markdown - Rendering library for Markdown
+- Mistune - Markdown parsing
+- Pillow -  Python Imaging Library
+- pyOpenSSL - Python based wrapper for OpenSSL library
+- Werkzueg - WSGI utility library for Python
+
+#### Installation
+
+After installing the above requirements clone or download the repo. 
+
+```sh
+$ cd ru-paste
+$ python manage.py runserver #note this runs the server without HTTPS support
+$ python manage.py runserver_plus --cert certname #runs server with HTTPS
+```
+By Default the server runs on localhost:8000 for non https and https://127.0.0.1:8000 for HTTPS
