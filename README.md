@@ -2,7 +2,7 @@
 RU-Paste is Django based Pastebin delvoped by students for an assignment. The aim of RU-Paste is to be secure, and be a lightweight application that can be deployed on multiple servers.
 
 
-##### Key Features!
+#### Key Features!
   - Appealing visual design
   - Private Posts
   - Text File Uploads
@@ -12,7 +12,7 @@ RU-Paste is Django based Pastebin delvoped by students for an assignment. The ai
   - Full HTTPS support via TLS
   - Data stored on disk is encrypted
   - Schelduled backups
-##### User layout
+#### User layout
 RU-Paste has 4 tiers of users:
 
   - Vistors
