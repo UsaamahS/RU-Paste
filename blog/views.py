@@ -11,6 +11,8 @@ from django.contrib import messages
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.widgets import AdminDateWidget
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_text
 
 
 #from django.contrib.admin import widgets
@@ -29,8 +31,10 @@ def home(request):
 
 class PostListView(ListView):
     model = Post
-    queryset = Post.objects.filter(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now())) #Post.objects.filter(date_expired__gt=datetime.now())
+    #preprivate
+    queryset = Post.objects.filter(Q(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now())) & Q(private=0)) #Post.objects.filter(date_expired__gt=datetime.now())
     template_name= 'blog/home.html'
+    print(force_text(urlsafe_base64_encode(force_bytes(Post.objects.filter(id=1)))))
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
@@ -38,7 +42,7 @@ class PostListView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("search", " ")
         if query:
-            return Post.objects.filter((Q(title__icontains=query)| Q(content__icontains=query)| Q(author__username=query)) & Q(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now()))).order_by('-date_posted')
+            return Post.objects.filter((Q(title__icontains=query)| Q(content__icontains=query)| Q(author__username=query)) & Q(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now())) & Q(private=0)).order_by('-date_posted')
 
 class UserPostListView(ListView):
     model = Post
@@ -48,11 +52,15 @@ class UserPostListView(ListView):
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Post.objects.filter(Q(author=user)).order_by('-date_posted')
+
+        if self.request.user == user:
+            return Post.objects.filter(Q(author=user)).order_by('-date_posted')
+        return Post.objects.filter(Q(author=user)&Q(private=0)).order_by('-date_posted')
 
 
 class PostDetailView(DetailView):
     model = Post
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
