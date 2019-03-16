@@ -21,6 +21,7 @@ from django.utils.encoding import force_bytes, force_text
 #romel was here
 from django.http import HttpResponse
 
+#getting all posts objects when going to the home page
 def home(request):
     context = {
         'posts': Post.objects.all()
@@ -28,40 +29,39 @@ def home(request):
     return render(request, 'blog/home.html', context)
 
 
-
+# Listing the views and filtering by date expiration and checking for private posts
 class PostListView(ListView):
     model = Post
-    #preprivate
     queryset = Post.objects.filter(Q(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now())) & Q(private=0)) #Post.objects.filter(date_expired__gt=datetime.now())
     template_name= 'blog/home.html'
-    print(force_text(urlsafe_base64_encode(force_bytes(Post.objects.filter(id=1)))))
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
-
+#search function to check if value that is being searched is in title content or in the authors name.
     def get_queryset(self):
         query = self.request.GET.get("search", " ")
         if query:
             return Post.objects.filter((Q(title__icontains=query)| Q(content__icontains=query)| Q(author__username=query)) & Q(Q(date_expired__isnull=True)|Q(date_expired__gt=datetime.now())) & Q(private=0)).order_by('-date_posted')
 
+#listing all posts when clicking on a certain users name 
 class UserPostListView(ListView):
     model = Post
     template_name= 'blog/user_posts.html'
     context_object_name = 'posts'
     paginate_by = 5
-
+#getting current user
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-
+#Displaying users posts
         if self.request.user == user:
             return Post.objects.filter(Q(author=user)).order_by('-date_posted')
         return Post.objects.filter(Q(author=user)&Q(private=0)).order_by('-date_posted')
 
-
+#showing the full post
 class PostDetailView(DetailView):
     model = Post
 
-
+#creating a post view
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     #date_expired = forms.DateTimeField(widget=forms.SplitDateTimeWidget())
@@ -74,7 +74,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-
+#updating a post
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'content', 'date_expired', 'private']
@@ -88,7 +88,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         if self.request.user == post.author:
             return True
         return False
-
+#deleting a post
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
@@ -98,7 +98,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == post.author:
             return True
         return False
-
+#downloading a post
 def PostDownload(request,pk,**kwargs):
     model = Post
     title = Post.objects.only('title').get(id=pk).title + ".txt"
@@ -107,13 +107,13 @@ def PostDownload(request,pk,**kwargs):
     response['Content-Disposition']='attachment; filename="%s"' %  str(title)
     return response
 
-
+#about page
 def about(request):
     context = {
         'title': 'About'
     }
     return render(request, 'blog/about.html', context)
-
+#creating a paste
 class PasteCreateView(LoginRequiredMixin, CreateView):
     model = Paste
     fields = ['title', 'content', 'date_expired', 'private']
@@ -123,7 +123,7 @@ class PasteCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
-
+#uploading a txt file
 @login_required
 def upload_file(request):
     if request.method == 'POST':
