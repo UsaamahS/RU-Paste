@@ -1,4 +1,93 @@
 {% extends "blog/base.html" %}
 {% block content %}
-   <h1>about page</h1>
+
+<h1>About</h1>
+<br>
+    <h2 id="rupaste">RU-Paste</h2>
+    <br>
+        <p>RU-Paste is a Django based Pastebin delvoped by students for an assignment. The aim of RU-Paste is to be secure, and be a lightweight application that can be deployed on multiple servers.</p>
+        <h4 id="keyfeatures">Key Features!</h4>
+        <ul>
+            <li>Appealing visual design</li>
+            <li>Private Posts</li>
+            <li>Text File Uploads</li>
+            <li>Raw and rendered files</li>
+            <li>Supports syntax highlighting as well as markdown rendering</li>
+            <li>Ability to search support</li>
+            <li>Full HTTPS support via TLS</li>
+            <li>Data stored on disk is encrypted</li>
+            <li>Schelduled backups</li>
+        </ul>
+        <h4 id="userlayout">User layout</h4>
+        <p>RU-Paste has 4 tiers of users:</p>
+        <ul>
+            <li>Vistors
+
+
+
+                <ul>
+                    <li>Can create a new User account </li>
+                    <li>Can login</li>
+                    <li>Can perform a password reset</li>
+                </ul>
+            </li>
+            <li>Users
+
+
+
+                <ul>
+                    <li>Users can list, search, create, edit, update and delete their own Posts.</li>
+                    <li>Can edit, update and delete their account and profile</li>
+                    <li>Users are able to upload text files as posts.</li>
+                </ul>
+            </li>
+            <li>Admins
+
+
+
+                <ul>
+                    <li>Can list, search, create, edit, update, delete Users. </li>
+                    <li>administrator interface and functions are not be visible by Users or Visitors</li>
+                    <li>Login from a special administrator portal </li>
+                </ul>
+            </li>
+            <li>SuperUsers
+
+
+
+                <ul>
+                    <li>Can do all functions of the above users, aswell as do tasks related to maintenance and configuration of RU-Paste</li>
+                </ul>
+            </li>
+        </ul>
+        <h4 id="postfeatures">Post Features</h4>
+        <ul>
+            <li>Can be marked as Public or Private</li>
+            <li>Posts work similarly to pastebin (a raw and rendered window) with the option to download the raw post as a text file.</li>
+            <li>User should be able to configure a post expiration date. </li>
+            <li>Posts can have titles.</li>
+            <li>The main/home page displays the 10 most recent posts. </li>
+        </ul>
+        <h4 id="dependenciesandrequirements">Dependencies and requirements</h4>
+        <ul>
+            <li>Django - Web-Framework</li>
+            <li>Python3 - cuz python > everything</li>
+            <li>Bootstrap - Becuase css is hard</li>
+            <li>Django-crispy-forms - For sweet crispy forms</li>
+            <li>Django-pygments - Syntax highlighting Library</li>
+            <li>Markdown - Rendering library for Markdown</li>
+            <li>Mistune - Markdown parsing</li>
+            <li>Pillow -  Python Imaging Library</li>
+            <li>pyOpenSSL - Python based wrapper for OpenSSL library</li>
+            <li>Werkzueg - WSGI utility library for Python</li>
+        </ul>
+        <h4 id="installation">Installation</h4>
+        <p>After installing the above requirements clone or download the repo. </p>
+        <pre>
+            <code class="sh language-sh">$ cd ru-paste
+$ python manage.py runserver #note this runs the server without HTTPS support
+$ python manage.py runserver_plus --cert certname #runs server with HTTPS
+</code>
+        </pre>
+        <p>By Default the server runs on localhost:8000 for non https and https://127.0.0.1:8000 for HTTPS</p>
 {% endblock content%}
