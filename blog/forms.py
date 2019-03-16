@@ -1,6 +1,7 @@
 from django import forms
 from .validators import validate_file_size
 
+#setting up form for uploading a file
 class UploadFileForm(forms.Form):
     title = forms.CharField(max_length=100)
     file = forms.FileField(validators=[validate_file_size])
