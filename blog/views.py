@@ -36,7 +36,7 @@ class PostListView(ListView):
     template_name= 'blog/home.html'
     context_object_name = 'posts'
     ordering = ['-date_posted']
-    paginate_by = 5
+    paginate_by = 10
 #search function to check if value that is being searched is in title content or in the authors name.
     def get_queryset(self):
         query = self.request.GET.get("search", " ")
